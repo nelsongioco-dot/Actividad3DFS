@@ -2,7 +2,7 @@ const fs = require('fs').promises;
 const path = require('path');
 const crypto = require('crypto');
 
-// No usamos readFileSync ni writeFileSync en las peticiones.
+// Lectura asincrona de archivos JSON.
 async function leerJson(nombreArchivo) {
   const ruta = path.resolve(__dirname, '..', '..', nombreArchivo);
   try {
@@ -14,8 +14,7 @@ async function leerJson(nombreArchivo) {
   }
 }
 
-// Cada actualización espera la anterior: evita perder datos si llegan
-// solicitudes casi al mismo tiempo. El archivo temporal se reemplaza al final.
+// Escrituras secuenciales por archivo temporal.
 const colas = new Map();
 function modificarJson(nombreArchivo, actualizar) {
   const anterior = colas.get(nombreArchivo) || Promise.resolve();

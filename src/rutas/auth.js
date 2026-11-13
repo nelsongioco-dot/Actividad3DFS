@@ -13,7 +13,7 @@ router.post('/register', async (req, res, next) => {
       throw errorHttp(400, 'Envía usuario (mínimo 3 caracteres) y password (mínimo 8 caracteres)');
     }
     const nombre = usuario.trim();
-    // Hash asíncrono: nunca guardamos la contraseña original.
+    // Almacenamiento del hash de contrasena.
     const passwordHash = await bcrypt.hash(password, 10);
     const nuevoUsuario = await modificarJson('usuarios.json', (usuarios) => {
       if (usuarios.some((u) => u.usuario.toLowerCase() === nombre.toLowerCase())) {

@@ -13,7 +13,7 @@ if (!process.env.JWT_SECRET || process.env.JWT_SECRET.length < 32) {
   process.exit(1);
 }
 
-// Middleware para interpretar el cuerpo JSON antes de las rutas.
+// Parseo de datos JSON.
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -21,7 +21,7 @@ app.get('/', (req, res) => res.json({ mensaje: 'API de tareas activa', puerto: P
 app.use(rutasAuth);                     // POST /register y POST /login
 app.use('/tareas', autenticarToken, rutasTareas); // CRUD protegido por JWT
 
-// Estos dos middlewares deben ir al final.
+// Manejo de rutas no encontradas y errores.
 app.use(rutaNoEncontrada);
 app.use(manejarErrores);
 
